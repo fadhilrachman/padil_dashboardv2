@@ -6,6 +6,15 @@ export const getDataCategory = createAsyncThunk("/category-get", async () => {
   return result;
 });
 
+export const getDataCategoryById = createAsyncThunk(
+  "/category-getById",
+  async (param: string) => {
+    const result = await axios.get(
+      `${import.meta.env.VITE_API_URL}/categories/${param}`
+    );
+    return result;
+  }
+);
 export const createDataCategory = createAsyncThunk(
   "/category-create",
   async (param: Category) => {
@@ -23,7 +32,7 @@ export const updateDataCategory = createAsyncThunk(
       nama: param.nama,
       type: param.type,
     };
-    const result = await axios.post(
+    const result = await axios.put(
       `${import.meta.env.VITE_API_URL}/categories/${param.id}`,
       val
     );
@@ -46,6 +55,7 @@ const categorySlice = createSlice({
   initialState: {
     status: "",
     data: [],
+    dataDetail: {},
   },
   extraReducers(builder) {
     builder.addCase(getDataCategory.pending, (state) => {
@@ -54,8 +64,19 @@ const categorySlice = createSlice({
     builder.addCase(getDataCategory.fulfilled, (state, action) => {
       state.status = "succes";
       state.data = action.payload.data.data;
+      state.dataDetail = {};
     });
     builder.addCase(getDataCategory.rejected, (state, action) => {
+      state.status = "error";
+    });
+    builder.addCase(getDataCategoryById.pending, (state) => {
+      state.status = "loading";
+    });
+    builder.addCase(getDataCategoryById.fulfilled, (state, action) => {
+      state.status = "succes";
+      state.dataDetail = action.payload.data.data;
+    });
+    builder.addCase(getDataCategoryById.rejected, (state, action) => {
       state.status = "error";
     });
     builder.addCase(createDataCategory.pending, (state) => {

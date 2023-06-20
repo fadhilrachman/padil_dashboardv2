@@ -51,7 +51,7 @@ const BaseTable = ({ column, data, loading, className }: Props) => {
           </tr>
         ) : data?.length === 0 ? (
           <tr className="   font-medium">
-            <td className="px-6 py-4 text-center" colSpan={column.length}>
+            <td className="px-6 py-4 text-center" colSpan={column.length + 1}>
               Tidak ada Data
             </td>
           </tr>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Title from "../../components/Title";
 import BaseInput from "../../components/form/BaseInput";
 import BaseButton from "../../components/form/BaseButton";
@@ -8,17 +8,41 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Category from "../../utils/interfaces/category";
 import { useAppDispatch, useAppSelector } from "../../hook";
-import { createDataCategory } from "../../redux/category";
-import { useNavigate } from "react-router-dom";
+import {
+  createDataCategory,
+  getDataCategoryById,
+  updateDataCategory,
+} from "../../redux/category";
+import { useNavigate, useParams } from "react-router-dom";
 
-const CreateCategory = () => {
+const UpdateCategory = () => {
   const navigate = useNavigate();
+  const id = useParams().id;
   const dispatch = useAppDispatch();
   const category = useAppSelector((state) => state.category);
-  const initialValues: Category = {
+  const dataCategory: any = category.dataDetail;
+  let initialValues: Category = {
     nama: "",
     type: "",
   };
+
+  useEffect(() => {
+    if (id) {
+      dispatch(getDataCategoryById(id));
+      //   formik.setValues({
+      //     nama: dataCategory.nama,
+      //     type: dataCategory.type,
+      //   });
+    }
+  }, []);
+  useEffect(() => {
+    if (dataCategory !== undefined) {
+      formik.setValues({
+        nama: dataCategory.nama,
+        type: dataCategory.type,
+      });
+    }
+  }, [dataCategory]);
   const formik = useFormik({
     initialValues,
     validationSchema: Yup.object({
@@ -26,17 +50,18 @@ const CreateCategory = () => {
       type: Yup.string().required("This column cannot be empty"),
     }),
     onSubmit: async (val) => {
-      await dispatch(createDataCategory(val));
+      const obj: Category = { ...val, id };
+      await dispatch(updateDataCategory(obj));
       navigate("/category");
     },
   });
-  console.log(formik.errors);
+  console.log({ dataCategory, val: formik.values });
 
   return (
     <div className="border  border-[#55597D] border-opacity-30 p-5 rounded-lg">
       <div className="flex">
         <ButtonBack to="/category" />
-        <Title title="Create Data Income" className="ml-3" />
+        <Title title="Update Data Category" className="ml-3" />
       </div>
       <form onSubmit={formik.handleSubmit}>
         <div className="border mt-7  border-[#55597D] border-opacity-30 p-5 rounded-lg">
@@ -85,4 +110,4 @@ const CreateCategory = () => {
   );
 };
 
-export default CreateCategory;
+export default UpdateCategory;

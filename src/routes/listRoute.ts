@@ -1,6 +1,7 @@
 import Dashboard from "../pages/Dashboard";
-import CreateDataCategory from "../pages/category/Create";
+import CreateCategory from "../pages/category/Create";
 import ListDataCategory from "../pages/category/ListDataCategory";
+import UpdateCategory from "../pages/category/Update";
 import CreateDataIncome from "../pages/income/Create";
 import ListDataIncome from "../pages/income/ListDataIncome";
 interface ListRouter {
@@ -29,7 +30,11 @@ const listRouter: ListRouter[] = [
   },
   {
     path: "/category-create",
-    element: CreateDataCategory,
+    element: CreateCategory,
+  },
+  {
+    path: "/category-update/:id",
+    element: UpdateCategory,
   },
 ];
 

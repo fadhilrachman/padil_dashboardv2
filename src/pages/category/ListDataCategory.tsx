@@ -52,9 +52,11 @@ const ListDataCategory = () => {
       render: (v: any, val: any) => {
         return (
           <div>
-            <span className="text-sky-400 underline mr-2 hover:cursor-pointer">
-              Update
-            </span>
+            <Link to={`/category-update/${val._id}`}>
+              <span className="text-sky-400 underline mr-2 hover:cursor-pointer">
+                Update
+              </span>
+            </Link>
             <span
               className="text-red-500 underline hover:cursor-pointer"
               onClick={() => setModal({ id: val._id, show: true })}
