@@ -33,7 +33,7 @@ export const updateDataCategory = createAsyncThunk(
 export const deleteDataCategory = createAsyncThunk(
   "/category-delete",
   async (param: string) => {
-    const result = await axios.post(
+    const result = await axios.delete(
       `${import.meta.env.VITE_API_URL}/categories/${param}`
     );
     return result;

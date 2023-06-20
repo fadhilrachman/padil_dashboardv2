@@ -5,11 +5,13 @@ interface Props {
   className?: string;
   children: React.ReactNode;
   loading?: boolean;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
-const BaseButton = ({ type, className, children, loading }: Props) => {
+const BaseButton = ({ type, className, children, loading, onClick }: Props) => {
   return (
     <button
       type={type}
+      onClick={onClick}
       className={`${className} ${
         loading && "scale-95 opacity-90"
       } focus:outline-none flex justify-center items-center bg-[#1D2032] px-4 py-3 rounded-lg transition-all duration-150 hover:scale-95 active:scale-100`}
