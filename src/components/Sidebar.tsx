@@ -8,6 +8,7 @@ interface ListSidebar {
 }
 const Sidebar = () => {
   const location = useLocation().pathname;
+  const fnlLocation = location.split("-")[0];
 
   const mainMenu: ListSidebar[] = [
     {
@@ -23,6 +24,11 @@ const Sidebar = () => {
     {
       title: "Expense",
       path: "/expense",
+      icon: "bx bxs-leaf",
+    },
+    {
+      title: "Category",
+      path: "/category",
       icon: "bx bxs-leaf",
     },
     {
@@ -53,7 +59,7 @@ const Sidebar = () => {
                 <div
                   key={key}
                   className={`flex items-center mt-5 hover:scale-105 transition-all duration-150 ${
-                    val.path === location && "scale-105 text-sky-400"
+                    val.path === fnlLocation && "scale-105 text-sky-400"
                   }`}
                 >
                   <i className={`${val.icon}  mr-3`}></i>
@@ -71,7 +77,7 @@ const Sidebar = () => {
                 <div
                   key={key}
                   className={`flex items-center mt-5 hover:scale-105 transition-all duration-150 ${
-                    val.path === location && "scale-105 text-sky-400"
+                    val.path === fnlLocation && "scale-105 text-sky-400"
                   }`}
                 >
                   <i className={`${val.icon}  mr-3`}></i>
