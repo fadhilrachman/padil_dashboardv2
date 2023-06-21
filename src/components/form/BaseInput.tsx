@@ -6,7 +6,7 @@ interface Props {
   className?: string;
   name?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-  value?: string | number;
+  value?: string | number | Date;
   isInvalid?: boolean;
   errMessage?: string;
 }
@@ -21,12 +21,13 @@ const BaseInput = ({
   value,
   errMessage,
 }: Props) => {
+  const formattedValue = value instanceof Date ? value.toISOString() : value;
   return (
     <>
       <input
         type={type}
         placeholder={placeholder}
-        value={value}
+        value={formattedValue}
         name={name}
         onChange={onChange}
         className={`${className} ${

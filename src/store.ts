@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import category from "./redux/category";
+import income from "./redux/income";
 export const store = configureStore({
   reducer: {
     category,
+    income,
   },
 });
 

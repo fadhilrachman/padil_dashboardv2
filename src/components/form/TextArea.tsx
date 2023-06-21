@@ -25,7 +25,7 @@ const TextArea = ({
       <textarea
         className={`${className} ${
           isInvalid ? "border-red-500" : ""
-        }  shadow w-full   rounded-lg  py-3 px-4  bg-[#1D2032] focus:outline-none focus:shadow-outline`}
+        }  shadow    rounded-lg  py-3 px-4  bg-[#1D2032] focus:outline-none focus:shadow-outline`}
         onChange={onChange}
         placeholder={placeholder}
         name={name}

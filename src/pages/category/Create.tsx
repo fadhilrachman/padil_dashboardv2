@@ -40,12 +40,12 @@ const CreateCategory = () => {
       </div>
       <form onSubmit={formik.handleSubmit}>
         <div className="border mt-7  border-[#55597D] border-opacity-30 p-5 rounded-lg">
-          <div className="sm:text-right   w-[600px]">
+          <div className="sm:text-right   w-[700px]">
             <label htmlFor="" className="mr-4">
               Category Name
             </label>
             <BaseInput
-              className="w-6/12"
+              className="w-7/12"
               type="text"
               name="nama"
               onChange={formik.handleChange}
@@ -54,13 +54,13 @@ const CreateCategory = () => {
               errMessage={formik.errors.nama}
             />
           </div>
-          <div className="sm:text-right   w-[600px] mt-5">
+          <div className="sm:text-right   w-[700px] mt-5">
             <label htmlFor="" className="mr-4">
               Type
             </label>
-            {/* <BaseInput type="date" className="w-6/12" /> */}
+            {/* <BaseInput type="date" className="w-7/12" /> */}
             <BaseSelect
-              className="w-6/12"
+              className="w-7/12"
               name="type"
               onChange={formik.handleChange}
               value={formik.values.type}
