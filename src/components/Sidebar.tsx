@@ -6,7 +6,7 @@ interface ListSidebar {
   path: string;
   icon: string;
 }
-const Sidebar = () => {
+const Sidebar = ({ menu }: { menu: boolean }) => {
   const location = useLocation().pathname;
   const fnlLocation = location.split("-")[0];
 
@@ -45,7 +45,11 @@ const Sidebar = () => {
     },
   ];
   return (
-    <div className="min-h-screen border-r border-[#55597D] border-opacity-30 w-[320px]">
+    <div
+      className={`${
+        menu ? " w-[270px]" : "w-0 hidden "
+      } min-h-screen border-r border-[#55597D] border-opacity-30 fixed `}
+    >
       <div className=" h-32  px-5 flex items-center justify-center">
         {/* <h3 className="text-2xl  ">ICON</h3> */}
         <img src={co} alt="" />

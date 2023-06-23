@@ -8,7 +8,7 @@ interface ResponIncome {
 
 interface RequestIncome {
   id?: string;
-  total_pemasukan: number;
+  total_pemasukan: number|"";
   tanggal: string;
   kategori: string;
   deskripsi?: string;

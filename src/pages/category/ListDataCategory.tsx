@@ -110,11 +110,7 @@ const ListDataCategory = () => {
         destroy={handleDelete}
         onHide={() => setModal({ show: false, id: "" })}
       />
-      <Toaster
-        position="top-right"
-        containerClassName=""
-        reverseOrder={false}
-      />
+      <Toaster position="top-right" containerClassName="" reverseOrder={true} />
     </div>
   );
 };

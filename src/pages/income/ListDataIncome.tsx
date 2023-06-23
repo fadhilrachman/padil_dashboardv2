@@ -11,6 +11,8 @@ import toast, { Toaster } from "react-hot-toast";
 import { deleteDataIncome, getDataIncome } from "../../redux/income";
 import { convertDate, formatNumber } from "../../utils";
 import Category from "../../utils/interfaces/category";
+import { QueryFilter } from "../../utils/interfaces";
+import BaseSelect from "../../components/form/BaseSelect";
 
 interface Modal {
   show: boolean;
@@ -21,10 +23,16 @@ const ListDataIncome = () => {
     show: false,
     id: "",
   });
+  const [param, setParam] = useState<QueryFilter>({
+    search: "",
+    limit: 5,
+    page: 3,
+  });
   const dispatch = useAppDispatch();
   const income = useAppSelector((state) => state.income);
-  const dataIncome = income.data;
-  // console.log(modal);
+  const dataIncome = income.result.data;
+  const totalPage = income.result.pagination?.total_page;
+  // console.log({ totalPage });
 
   const column: Column[] = [
     {
@@ -41,7 +49,7 @@ const ListDataIncome = () => {
       title: "Category",
       index: "kategori",
       render: (val: Category) => {
-        return <span>{val.nama}</span>;
+        return <span>{val?.nama}</span>;
       },
     },
     {
@@ -55,8 +63,6 @@ const ListDataIncome = () => {
             <br />
           </>
         ));
-
-        console.log({ arr });
       },
     },
 
@@ -82,15 +88,16 @@ const ListDataIncome = () => {
       },
     },
   ];
+  // let angka: number = 7;
 
   useEffect(() => {
-    dispatch(getDataIncome());
-  }, []);
+    dispatch(getDataIncome(param));
+  }, [param]);
 
   const handleDelete = async () => {
     await dispatch(deleteDataIncome(modal.id));
     setModal({ show: false, id: "" });
-    dispatch(getDataIncome());
+    dispatch(getDataIncome(param));
     toast("Succes Delete Data ✔️", {
       // icon: "👏",
       style: {
@@ -107,7 +114,24 @@ const ListDataIncome = () => {
     <div>
       <Title title="Data Income" />
       <div className="mt-5 flex justify-between">
-        <BaseInput placeholder="Search..." />
+        <div className="flex">
+          <BaseInput
+            placeholder="Search..."
+            onChange={(e) => setParam({ ...param, search: e.target.value })}
+            value={param.search}
+          />
+          <BaseSelect
+            className="ml-3"
+            value={param.limit?.toString()}
+            onChange={(e) =>
+              setParam({ ...param, limit: Number(e.target.value) })
+            }
+          >
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+          </BaseSelect>
+        </div>
         <Link to="/income-create">
           <BaseButton>Create Data</BaseButton>
         </Link>
@@ -117,18 +141,18 @@ const ListDataIncome = () => {
         loading={income.status === "loading"}
         className="mt-5"
         column={column}
+        count={income.result.count}
         data={dataIncome}
+        pagination={income.result.pagination}
+        setParam={setParam}
       />
+
       <ModalDelete
         show={modal.show}
         destroy={handleDelete}
         onHide={() => setModal({ show: false, id: "" })}
       />
-      <Toaster
-        position="top-right"
-        containerClassName=""
-        reverseOrder={false}
-      />
+      <Toaster position="top-right" containerClassName="" reverseOrder={true} />
     </div>
   );
 };

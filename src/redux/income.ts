@@ -2,16 +2,25 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import Category from "../utils/interfaces/category";
 import { RequestIncome, ResponIncome } from "../utils/interfaces/income";
+import { QueryFilter, ResponApi } from "../utils/interfaces";
 
 interface InitialState {
   status: "loading" | "succes" | "error" | "";
-  data: ResponIncome[];
+  result: ResponApi<ResponIncome[]>;
   dataDetail: ResponIncome | {};
 }
-export const getDataIncome = createAsyncThunk("/income-get", async () => {
-  const result = await axios.get(`${import.meta.env.VITE_API_URL}/income`);
-  return result;
-});
+
+export const getDataIncome = createAsyncThunk(
+  "/income-get",
+  async ({ search, limit = "", page = "" }: QueryFilter) => {
+    const result = await axios.get(
+      `${
+        import.meta.env.VITE_API_URL
+      }/income?search=${search}&limit=${limit}&page=${page}`
+    );
+    return result;
+  }
+);
 
 export const getDataIncomeById = createAsyncThunk(
   "/income-getById",
@@ -57,7 +66,7 @@ export const deleteDataIncome = createAsyncThunk(
 );
 const initialState: InitialState = {
   status: "",
-  data: [],
+  result: {},
   dataDetail: {},
 };
 
@@ -71,7 +80,7 @@ const incomeSlice = createSlice({
     });
     builder.addCase(getDataIncome.fulfilled, (state, action) => {
       state.status = "succes";
-      state.data = action.payload.data.data;
+      state.result = action.payload.data;
       state.dataDetail = {};
     });
     builder.addCase(getDataIncome.rejected, (state, action) => {

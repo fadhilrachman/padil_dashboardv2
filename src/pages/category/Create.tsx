@@ -45,7 +45,7 @@ const CreateCategory = () => {
               Category Name
             </label>
             <BaseInput
-              className="w-7/12"
+              className="w-6/12"
               type="text"
               name="nama"
               onChange={formik.handleChange}
@@ -58,9 +58,9 @@ const CreateCategory = () => {
             <label htmlFor="" className="mr-4">
               Type
             </label>
-            {/* <BaseInput type="date" className="w-7/12" /> */}
+            {/* <BaseInput type="date" className="w-6/12" /> */}
             <BaseSelect
-              className="w-7/12"
+              className="w-6/12"
               name="type"
               onChange={formik.handleChange}
               value={formik.values.type}

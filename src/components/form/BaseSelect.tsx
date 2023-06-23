@@ -3,7 +3,7 @@ import React, { ChangeEvent } from "react";
 interface Props {
   onChange?: (event: ChangeEvent<HTMLSelectElement>) => void;
   className?: string;
-  value?: string;
+  value?: string | "";
   errMessage?: string;
   isInvalid?: boolean;
   name?: string;
