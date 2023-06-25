@@ -13,7 +13,7 @@ interface Pagination {
 }
 interface ResponApi<DATA> {
   count?: number;
-  pagination: Pagination;
+  pagination?: Pagination;
   data?: DATA;
 }
 

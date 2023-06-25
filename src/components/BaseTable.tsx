@@ -10,6 +10,7 @@ interface Props {
   totalPage?: number;
   pagination?: Pagination;
   setParam?: any;
+  param?: any;
 }
 const BaseTable = ({
   column,
@@ -19,11 +20,12 @@ const BaseTable = ({
   count,
   pagination,
   setParam,
+  param,
 }: Props) => {
   const [page, setPage] = useState<number[]>([]);
   const totalPage = pagination?.total_page;
-  const limit = Number(pagination?.limit);
-  const currentPage = pagination?.current_page;
+  const limit = param.limit;
+  const currentPage = pagination?.current_page || 1;
   useEffect(() => {
     let array: number[] = [];
 
@@ -42,8 +44,6 @@ const BaseTable = ({
 
   const showingMin: number =
     Number(currentPage) * Number(limit) + 1 - Number(limit);
-
-  console.log({ pagination, count, totalPage });
 
   return (
     <div>
@@ -129,7 +129,7 @@ const BaseTable = ({
                       val === currentPage && "bg-[#ADB3CC] text-[#171B2D]"
                     } border border-[#ADB3CC] rounded-lg px-3 py-1 hover:cursor-pointer hover:opacity-70 mr-3`}
                     // onClick={() => setParam({ ...param, page: val })}
-                    onClick={() => setParam({ page: val, limit: 5 })}
+                    onClick={() => setParam({ ...param, page: val })}
                   >
                     {val}
                   </span>

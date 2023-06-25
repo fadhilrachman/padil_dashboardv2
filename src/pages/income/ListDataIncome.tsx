@@ -26,13 +26,13 @@ const ListDataIncome = () => {
   const [param, setParam] = useState<QueryFilter>({
     search: "",
     limit: 5,
-    page: 3,
+    page: 1,
   });
   const dispatch = useAppDispatch();
   const income = useAppSelector((state) => state.income);
   const dataIncome = income.result.data;
-  const totalPage = income.result.pagination?.total_page;
-  // console.log({ totalPage });
+  const pagination = income.result.pagination;
+  console.log(pagination);
 
   const column: Column[] = [
     {
@@ -110,6 +110,20 @@ const ListDataIncome = () => {
     });
   };
 
+  const handleLimit = (e: any) => {
+    if (
+      Math.ceil(Number(income.result.count) / e.target.value) <
+      Number(pagination?.total_page)
+    ) {
+      return setParam({
+        ...param,
+        page: Math.ceil(Number(income.result.count) / e.target.value),
+        limit: e.target.value,
+      });
+    }
+    setParam({ ...param, limit: e.target.value });
+  };
+
   return (
     <div>
       <Title title="Data Income" />
@@ -117,15 +131,15 @@ const ListDataIncome = () => {
         <div className="flex">
           <BaseInput
             placeholder="Search..."
-            onChange={(e) => setParam({ ...param, search: e.target.value })}
+            onChange={(e) =>
+              setParam({ search: e.target.value, page: 1, limit: 5 })
+            }
             value={param.search}
           />
           <BaseSelect
             className="ml-3"
             value={param.limit?.toString()}
-            onChange={(e) =>
-              setParam({ ...param, limit: Number(e.target.value) })
-            }
+            onChange={(e) => handleLimit(e)}
           >
             <option value="5">5</option>
             <option value="10">10</option>
@@ -145,6 +159,7 @@ const ListDataIncome = () => {
         data={dataIncome}
         pagination={income.result.pagination}
         setParam={setParam}
+        param={param}
       />
 
       <ModalDelete
@@ -152,7 +167,7 @@ const ListDataIncome = () => {
         destroy={handleDelete}
         onHide={() => setModal({ show: false, id: "" })}
       />
-      <Toaster position="top-right" containerClassName="" reverseOrder={true} />
+      <Toaster position="top-right" containerClassName="" />
     </div>
   );
 };

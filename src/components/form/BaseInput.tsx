@@ -35,7 +35,7 @@ const BaseInput = ({
         } bg-[#1D2032] focus:outline-none rounded-lg px-4 py-3`}
       />
       <br></br>
-      {errMessage && (
+      {isInvalid && (
         <small className="text-red-400 text-left">{errMessage}</small>
       )}
     </>
