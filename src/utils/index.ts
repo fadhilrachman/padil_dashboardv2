@@ -12,6 +12,16 @@ const convertDate = (param: string): string => {
   });
   return formattedDate;
 };
+const formatDate = (dateString: string): string => {
+  const date = new Date(dateString);
+
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const year = String(date.getFullYear());
+
+  const formattedDate = `${year}-${month}-${day}`;
+  return formattedDate;
+};
 
 console.log(convertDate("2012-09-1"));
 
@@ -46,4 +56,9 @@ const getToken = () => {
   return localStorage.getItem("token");
 };
 
-export { convertDate, formatNumber, getToken };
+const convertLink = (param: string): string => {
+  const result = param.split("/")[2];
+  return result;
+};
+
+export { convertDate, formatNumber, getToken, formatDate, convertLink };

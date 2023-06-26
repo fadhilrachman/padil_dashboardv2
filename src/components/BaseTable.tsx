@@ -45,6 +45,8 @@ const BaseTable = ({
   const showingMin: number =
     Number(currentPage) * Number(limit) + 1 - Number(limit);
 
+  console.log({ currentPage, limit });
+
   return (
     <div>
       <table
@@ -118,7 +120,8 @@ const BaseTable = ({
       {!loading && (
         <div className="flex justify-between items-center px-10 mt-10">
           <small>
-            Showing {showingMin} to {showingTo} of {count || 0} enteries
+            Showing {data?.length !== 0 ? showingMin : 0} to {showingTo} of{" "}
+            {count || 0} enteries
           </small>
           {totalPage && (
             <div className="">

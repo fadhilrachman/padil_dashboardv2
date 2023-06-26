@@ -1,4 +1,4 @@
-interface ResponIncome {
+interface ResponAricle {
   id: string;
   total_pemasukan: number;
   tanggal: Date | string;
@@ -6,12 +6,12 @@ interface ResponIncome {
   deskripsi?: string;
 }
 
-interface RequestIncome {
+interface RequestArticle {
   id?: string;
-  total_pemasukan: number | "";
+  judul: string;
   tanggal: string;
   kategori: string;
-  deskripsi?: string;
+  link: string;
 }
 
-export type { ResponIncome, RequestIncome };
+export type { ResponAricle, RequestArticle };

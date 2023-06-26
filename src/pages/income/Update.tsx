@@ -9,14 +9,23 @@ import TextArea from "../../components/form/TextArea";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { RequestIncome } from "../../utils/interfaces/income";
-import { createDataIncome } from "../../redux/income";
+import {
+  createDataIncome,
+  getDataIncomeById,
+  updateDataIncome,
+} from "../../redux/income";
 import toast, { Toaster } from "react-hot-toast";
 import ButtonBack from "../../components/ButtonBack";
+import { useNavigate, useParams } from "react-router-dom";
+import { formatDate } from "../../utils";
 
-const CreateDataIncome = () => {
+const UpdateDataIncome = () => {
+  const id = useParams().id;
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const category = useAppSelector((state) => state.category);
   const income = useAppSelector((state) => state.income);
+  const dataIncome = income.dataDetail;
   const dataCategory = category.data;
 
   const initialValues: RequestIncome = {
@@ -25,6 +34,27 @@ const CreateDataIncome = () => {
     tanggal: "",
     deskripsi: "",
   };
+
+  useEffect(() => {
+    if (id) {
+      dispatch(getDataIncomeById(id));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (dataIncome !== undefined) {
+      const tanggal = formatDate(dataIncome.tanggal);
+      console.log({ tanggal });
+
+      formik.setValues({
+        kategori: dataIncome.kategori,
+        tanggal: tanggal,
+        total_pemasukan: dataIncome.total_pemasukan,
+        deskripsi: dataIncome.deskripsi || "",
+      });
+    }
+  }, [dataIncome]);
+
   const formik = useFormik({
     initialValues,
     validationSchema: Yup.object({
@@ -34,31 +64,33 @@ const CreateDataIncome = () => {
       deskripsi: Yup.string(),
     }),
     onSubmit: async (val) => {
-      await dispatch(createDataIncome(val));
-      formik.resetForm();
-      toast("Succes Create Data ✔️", {
-        // icon: "👏",
-        style: {
-          borderRadius: "10px",
-          padding: "10px 10px",
-          background: "#171B2D",
-          boxShadow: "0 4px 8px 0 #ADB3CC",
-          color: "#ADB3CC",
-        },
-      });
-      // navigate("/category");
+      const obj: RequestIncome = {
+        ...val,
+        id,
+      };
+      await dispatch(updateDataIncome(obj));
+      navigate("/income");
+      //   toast("Succes Create Data ✔️", {
+      //     // icon: "👏",
+      //     style: {
+      //       borderRadius: "10px",
+      //       padding: "10px 10px",
+      //       background: "#171B2D",
+      //       boxShadow: "0 4px 8px 0 #ADB3CC",
+      //       color: "#ADB3CC",
+      //     },
+      //   });
     },
   });
   useEffect(() => {
     dispatch(getDataCategory());
   }, []);
-  console.log(formik.values);
 
   return (
     <div className="border  border-[#55597D] border-opacity-30 p-5 rounded-lg">
       <div className="flex">
         <ButtonBack to="/income" />
-        <Title title="Create Data Income" className="ml-3" />
+        <Title title="Update Data Income" className="ml-3" />
       </div>
       <form action="" onSubmit={formik.handleSubmit}>
         <div className="border mt-7  border-[#55597D] border-opacity-30 p-5 rounded-lg">
@@ -142,4 +174,4 @@ const CreateDataIncome = () => {
   );
 };
 
-export default CreateDataIncome;
+export default UpdateDataIncome;

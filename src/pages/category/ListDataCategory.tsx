@@ -9,12 +9,18 @@ import { deleteDataCategory, getDataCategory } from "../../redux/category";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import ModalDelete from "../../components/ModalDelete";
 import toast, { Toaster } from "react-hot-toast";
+import { QueryFilter } from "../../utils/interfaces";
 
 interface Modal {
   show: boolean;
   id: string;
 }
 const ListDataCategory = () => {
+  const [param, setParam] = useState<QueryFilter>({
+    search: "",
+    limit: 5,
+    page: 1,
+  });
   const [modal, setModal] = useState<Modal>({
     show: false,
     id: "",
@@ -99,12 +105,15 @@ const ListDataCategory = () => {
         </Link>
       </div>
 
-      <BaseTable
+      {/* <BaseTable
         loading={category.status === "loading"}
         className="mt-5"
         column={column}
         data={dataCategory}
-      />
+        count={category.result.count}
+        setParam={setParam}
+        param={param}
+      /> */}
       <ModalDelete
         show={modal.show}
         destroy={handleDelete}

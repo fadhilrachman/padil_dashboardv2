@@ -8,33 +8,57 @@ import BaseSelect from "../../components/form/BaseSelect";
 import TextArea from "../../components/form/TextArea";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { RequestIncome } from "../../utils/interfaces/income";
-import { createDataIncome } from "../../redux/income";
 import toast, { Toaster } from "react-hot-toast";
 import ButtonBack from "../../components/ButtonBack";
+import { RequestArticle } from "../../utils/interfaces/article";
+import { createDataArticle, getDataArticleById } from "../../redux/article";
+import { useNavigate, useParams } from "react-router-dom";
+import { formatDate } from "../../utils";
 
-const CreateDataIncome = () => {
+const CreateDataArticle = () => {
+  const id = useParams().id;
   const dispatch = useAppDispatch();
   const category = useAppSelector((state) => state.category);
-  const income = useAppSelector((state) => state.income);
+  const article = useAppSelector((state) => state.article);
+  const dataArticle = article.dataDetail;
   const dataCategory = category.data;
 
-  const initialValues: RequestIncome = {
+  const initialValues: RequestArticle = {
     kategori: "",
-    total_pemasukan: "",
+    judul: "",
     tanggal: "",
-    deskripsi: "",
+    link: "",
   };
+
+  useEffect(() => {
+    if (id) {
+      dispatch(getDataArticleById(id));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (dataArticle !== undefined) {
+      const tanggal = formatDate(dataArticle.tanggal);
+      console.log({ tanggal });
+
+      formik.setValues({
+        kategori: dataArticle.kategori,
+        tanggal: tanggal,
+        judul: dataArticle.judul,
+        link: dataArticle.link,
+      });
+    }
+  }, [dataArticle]);
   const formik = useFormik({
     initialValues,
     validationSchema: Yup.object({
       tanggal: Yup.date().required("This column cannot be empty"),
-      total_pemasukan: Yup.number().required("This column cannot be empty"),
+      judul: Yup.string().required("This column cannot be empty"),
       kategori: Yup.string().required("This column cannot be empty"),
-      deskripsi: Yup.string(),
+      link: Yup.string().required("This column cannot be empty"),
     }),
     onSubmit: async (val) => {
-      await dispatch(createDataIncome(val));
+      await dispatch(createDataArticle(val));
       formik.resetForm();
       toast("Succes Create Data ✔️", {
         // icon: "👏",
@@ -57,30 +81,28 @@ const CreateDataIncome = () => {
   return (
     <div className="border  border-[#55597D] border-opacity-30 p-5 rounded-lg">
       <div className="flex">
-        <ButtonBack to="/income" />
-        <Title title="Create Data Income" className="ml-3" />
+        <ButtonBack to="/article" />
+        <Title title="Update Data Article" className="ml-3" />
       </div>
       <form action="" onSubmit={formik.handleSubmit}>
         <div className="border mt-7  border-[#55597D] border-opacity-30 p-5 rounded-lg">
           <div className="sm:text-right   w-9/12 ">
             <label htmlFor="" className="mr-4">
-              Income
+              Title
             </label>
             <BaseInput
               type="number"
               className="w-7/12"
-              name="total_pemasukan"
+              name="judul"
               onChange={formik.handleChange}
-              value={formik.values.total_pemasukan}
-              isInvalid={
-                formik.submitCount >= 1 && !!formik.errors.total_pemasukan
-              }
-              errMessage={formik.errors.total_pemasukan}
+              value={formik.values.judul}
+              isInvalid={formik.submitCount >= 1 && !!formik.errors.judul}
+              errMessage={formik.errors.judul}
             />
           </div>
           <div className="sm:text-right   w-9/12  mt-5">
             <label htmlFor="" className="mr-4">
-              Income Date
+              Created Date
             </label>
             <BaseInput
               type="date"
@@ -90,6 +112,19 @@ const CreateDataIncome = () => {
               value={formik.values.tanggal}
               isInvalid={formik.submitCount >= 1 && !!formik.errors.tanggal}
               errMessage={formik.errors.tanggal}
+            />
+          </div>
+          <div className="sm:text-right   w-9/12    ">
+            <label htmlFor="" className="mr-4">
+              Link
+            </label>
+            <BaseInput
+              className="w-7/12"
+              name="link"
+              onChange={formik.handleChange}
+              value={formik.values.link}
+              isInvalid={formik.submitCount >= 1 && !!formik.errors.link}
+              errMessage={formik.errors.link}
             />
           </div>
           <div className="sm:text-right   w-9/12  mt-5">
@@ -114,21 +149,10 @@ const CreateDataIncome = () => {
               })}
             </BaseSelect>
           </div>
-          <div className="sm:text-right   w-9/12  mt-5 flex items-start justify-end">
-            <label htmlFor="" className="mr-4">
-              Description
-            </label>
-            <TextArea
-              className="w-7/12"
-              name="deskripsi"
-              onChange={formik.handleChange}
-              value={formik.values.deskripsi}
-            />
-          </div>
         </div>
         <BaseButton
           className="w-full mt-5"
-          loading={income.status === "loading"}
+          loading={article.status === "loading"}
         >
           Submit
         </BaseButton>
@@ -142,4 +166,4 @@ const CreateDataIncome = () => {
   );
 };
 
-export default CreateDataIncome;
+export default CreateDataArticle;

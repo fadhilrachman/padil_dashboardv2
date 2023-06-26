@@ -7,7 +7,7 @@ import { QueryFilter, ResponApi } from "../utils/interfaces";
 interface InitialState {
   status: "loading" | "succes" | "error" | "";
   result: ResponApi<ResponIncome[]>;
-  dataDetail: ResponIncome | {};
+  dataDetail: ResponIncome | any;
 }
 
 export const getDataIncome = createAsyncThunk(
@@ -43,14 +43,10 @@ export const createDataIncome = createAsyncThunk(
 );
 export const updateDataIncome = createAsyncThunk(
   "/income-update",
-  async (param: Category) => {
-    const val = {
-      nama: param.nama,
-      type: param.type,
-    };
+  async (param: RequestIncome) => {
     const result = await axios.put(
       `${import.meta.env.VITE_API_URL}/income/${param.id}`,
-      val
+      param
     );
     return result;
   }

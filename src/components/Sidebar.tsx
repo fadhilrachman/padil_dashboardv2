@@ -33,7 +33,7 @@ const Sidebar = ({ menu }: { menu: boolean }) => {
     },
     {
       title: "Article",
-      path: "/expense",
+      path: "/article",
       icon: "bx bxs-leaf",
     },
   ];

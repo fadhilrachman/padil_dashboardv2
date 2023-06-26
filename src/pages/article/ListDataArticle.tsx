@@ -8,8 +8,8 @@ import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import ModalDelete from "../../components/ModalDelete";
 import toast, { Toaster } from "react-hot-toast";
-import { deleteDataIncome, getDataIncome } from "../../redux/income";
-import { convertDate, formatNumber } from "../../utils";
+import { getDataArticle, deleteDataArticle } from "../../redux/article";
+import { convertDate, convertLink, formatNumber } from "../../utils";
 import Category from "../../utils/interfaces/category";
 import { QueryFilter } from "../../utils/interfaces";
 import BaseSelect from "../../components/form/BaseSelect";
@@ -18,7 +18,7 @@ interface Modal {
   show: boolean;
   id: string;
 }
-const ListDataIncome = () => {
+const ListDataArticle = () => {
   const [modal, setModal] = useState<Modal>({
     show: false,
     id: "",
@@ -29,41 +29,39 @@ const ListDataIncome = () => {
     page: 1,
   });
   const dispatch = useAppDispatch();
-  const income = useAppSelector((state) => state.income);
-  const dataIncome = income.result.data;
-  const pagination = income.result.pagination;
+  const article = useAppSelector((state) => state.article);
+  const dataArticle = article.result.data;
+  const pagination = article.result.pagination;
 
   console.log(pagination);
 
   const column: Column[] = [
     {
-      title: "Income Date",
+      title: "Created Date",
       index: "tanggal",
       render: (val: string) => <>{convertDate(val)}</>,
     },
     {
-      title: "Income ",
-      index: "total_pemasukan",
-      render: (val: number) => <>{`Rp.${formatNumber(val)}`}</>,
+      title: "Title ",
+      index: "judul",
     },
+
     {
-      title: "Category",
+      title: "Category ",
       index: "kategori",
       render: (val: Category) => {
         return <span>{val?.nama}</span>;
       },
     },
     {
-      title: "Description",
-      index: "deskripsi",
+      title: "Link",
+      index: "link",
       render: (val: string) => {
-        const arr: string[] = val?.split("\n");
-        return arr?.map((val: string) => (
-          <>
-            <span>{val}</span>
-            <br />
-          </>
-        ));
+        return (
+          <a href={val} className="text-sky-400 underline">
+            {convertLink(val)}
+          </a>
+        );
       },
     },
 
@@ -73,7 +71,7 @@ const ListDataIncome = () => {
       render: (v: any, val: any) => {
         return (
           <div>
-            <Link to={`/income-update/${val._id}`}>
+            <Link to={`/article-update/${val._id}`}>
               <span className="text-sky-400 underline mr-2 hover:cursor-pointer">
                 Update
               </span>
@@ -92,13 +90,13 @@ const ListDataIncome = () => {
   // let angka: number = 7;
 
   useEffect(() => {
-    dispatch(getDataIncome(param));
+    dispatch(getDataArticle(param));
   }, [param]);
 
   const handleDelete = async () => {
-    await dispatch(deleteDataIncome(modal.id));
+    await dispatch(deleteDataArticle(modal.id));
     setModal({ show: false, id: "" });
-    dispatch(getDataIncome(param));
+    dispatch(getDataArticle(param));
     toast("Succes Delete Data ✔️", {
       // icon: "👏",
       style: {
@@ -113,12 +111,12 @@ const ListDataIncome = () => {
 
   const handleLimit = (e: any) => {
     if (
-      Math.ceil(Number(income.result.count) / e.target.value) <
+      Math.ceil(Number(article.result.count) / e.target.value) <
       Number(pagination?.total_page)
     ) {
       return setParam({
         ...param,
-        page: Math.ceil(Number(income.result.count) / e.target.value),
+        page: Math.ceil(Number(article.result.count) / e.target.value),
         limit: e.target.value,
       });
     }
@@ -127,7 +125,7 @@ const ListDataIncome = () => {
 
   return (
     <div>
-      <Title title="Data Income" />
+      <Title title="Data Article" />
       <div className="mt-5 flex justify-between">
         <div className="flex">
           <BaseInput
@@ -147,18 +145,18 @@ const ListDataIncome = () => {
             <option value="20">20</option>
           </BaseSelect>
         </div>
-        <Link to="/income-create">
+        <Link to="/article-create">
           <BaseButton>Create Data</BaseButton>
         </Link>
       </div>
 
       <BaseTable
-        loading={income.status === "loading"}
+        loading={article.status === "loading"}
         className="mt-5"
         column={column}
-        count={income.result.count}
-        data={dataIncome}
-        pagination={income.result.pagination}
+        count={article.result.count}
+        data={dataArticle}
+        pagination={article.result.pagination}
         setParam={setParam}
         param={param}
       />
@@ -173,4 +171,4 @@ const ListDataIncome = () => {
   );
 };
 
-export default ListDataIncome;
+export default ListDataArticle;
