@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import Category from "../utils/interfaces/category";
 import { RequestIncome, ResponIncome } from "../utils/interfaces/income";
 import { QueryFilter, ResponApi } from "../utils/interfaces";
 

@@ -10,33 +10,31 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import toast, { Toaster } from "react-hot-toast";
 import ButtonBack from "../../components/ButtonBack";
-import { RequestArticle } from "../../utils/interfaces/article";
-import { createDataArticle } from "../../redux/article";
+import { RequestExpense } from "../../utils/interfaces/expense";
+import { createDataExpense } from "../../redux/expense";
 
-const CreateDataArticle = () => {
+const CreateExpense = () => {
   const dispatch = useAppDispatch();
   const category = useAppSelector((state) => state.category);
-  const article = useAppSelector((state) => state.article);
+  const income = useAppSelector((state) => state.income);
   const dataCategory = category.data;
 
-  const initialValues: RequestArticle = {
+  const initialValues: RequestExpense = {
     kategori: "",
-    judul: "",
+    total_pengeluaran: "",
     tanggal: "",
-    link: "",
+    deskripsi: "",
   };
   const formik = useFormik({
     initialValues,
     validationSchema: Yup.object({
       tanggal: Yup.date().required("This column cannot be empty"),
-      judul: Yup.string().required("This column cannot be empty"),
+      total_pengeluaran: Yup.number().required("This column cannot be empty"),
       kategori: Yup.string().required("This column cannot be empty"),
-      link: Yup.string().required("This column cannot be empty"),
+      deskripsi: Yup.string(),
     }),
     onSubmit: async (val) => {
-        console.log(val);
-        
-      await dispatch(createDataArticle(val));
+      await dispatch(createDataExpense(val));
       formik.resetForm();
       toast("Succes Create Data ✔️", {
         // icon: "👏",
@@ -59,27 +57,30 @@ const CreateDataArticle = () => {
   return (
     <div className="border  border-[#55597D] border-opacity-30 p-5 rounded-lg">
       <div className="flex">
-        <ButtonBack to="/article" />
-        <Title title="Create Data Income" className="ml-3" />
+        <ButtonBack to="/expense" />
+        <Title title="Create Data Expense" className="ml-3" />
       </div>
       <form action="" onSubmit={formik.handleSubmit}>
         <div className="border mt-7  border-[#55597D] border-opacity-30 p-5 rounded-lg">
           <div className="sm:text-right   w-9/12 ">
             <label htmlFor="" className="mr-4">
-              Title
+              Expense
             </label>
             <BaseInput
+              type="number"
               className="w-7/12"
-              name="judul"
+              name="total_pengeluaran"
               onChange={formik.handleChange}
-              value={formik.values.judul}
-              isInvalid={formik.submitCount >= 1 && !!formik.errors.judul}
-              errMessage={formik.errors.judul}
+              value={formik.values.total_pengeluaran}
+              isInvalid={
+                formik.submitCount >= 1 && !!formik.errors.total_pengeluaran
+              }
+              errMessage={formik.errors.total_pengeluaran}
             />
           </div>
           <div className="sm:text-right   w-9/12  mt-5">
             <label htmlFor="" className="mr-4">
-              Created Date
+              Expense Date
             </label>
             <BaseInput
               type="date"
@@ -89,19 +90,6 @@ const CreateDataArticle = () => {
               value={formik.values.tanggal}
               isInvalid={formik.submitCount >= 1 && !!formik.errors.tanggal}
               errMessage={formik.errors.tanggal}
-            />
-          </div>
-          <div className="sm:text-right   w-9/12  mt-5">
-            <label htmlFor="" className="mr-4">
-              Link
-            </label>
-            <BaseInput
-              className="w-7/12"
-              name="link"
-              onChange={formik.handleChange}
-              value={formik.values.link}
-              isInvalid={formik.submitCount >= 1 && !!formik.errors.link}
-              errMessage={formik.errors.link}
             />
           </div>
           <div className="sm:text-right   w-9/12  mt-5">
@@ -126,10 +114,21 @@ const CreateDataArticle = () => {
               })}
             </BaseSelect>
           </div>
+          <div className="sm:text-right   w-9/12  mt-5 flex items-start justify-end">
+            <label htmlFor="" className="mr-4">
+              Description
+            </label>
+            <TextArea
+              className="w-7/12"
+              name="deskripsi"
+              onChange={formik.handleChange}
+              value={formik.values.deskripsi}
+            />
+          </div>
         </div>
         <BaseButton
           className="w-full mt-5"
-          loading={article.status === "loading"}
+          loading={income.status === "loading"}
         >
           Submit
         </BaseButton>
@@ -143,4 +142,4 @@ const CreateDataArticle = () => {
   );
 };
 
-export default CreateDataArticle;
+export default CreateExpense;

@@ -1,13 +1,16 @@
 import Dashboard from "../pages/Dashboard";
 import CreateDataArticle from "../pages/article/Create";
 import ListDataArticle from "../pages/article/ListDataArticle";
+import UpdateArticle from "../pages/article/Update";
 import CreateCategory from "../pages/category/Create";
 import ListDataCategory from "../pages/category/ListDataCategory";
 import UpdateCategory from "../pages/category/Update";
+import CreateExpense from "../pages/expense/Create";
+import ListDataExpense from "../pages/expense/ListDataExpense";
+import UpdateExpense from "../pages/expense/Update";
 import CreateDataIncome from "../pages/income/Create";
 import ListDataIncome from "../pages/income/ListDataIncome";
 import UpdateDataIncome from "../pages/income/Update";
-import { updateDataArticle } from "../redux/article";
 interface ListRouter {
   path: string;
   element: any;
@@ -30,6 +33,19 @@ const listRouter: ListRouter[] = [
   {
     path: "/income-update/:id",
     element: UpdateDataIncome,
+  },
+  // EXPENSE
+  {
+    path: "/expense",
+    element: ListDataExpense,
+  },
+  {
+    path: "/expense-create",
+    element: CreateExpense,
+  },
+  {
+    path: "/expense-update/:id",
+    element: UpdateExpense,
   },
   //   CATEGORY
   {
@@ -56,7 +72,7 @@ const listRouter: ListRouter[] = [
   },
   {
     path: "/article-update/:id",
-    element: updateDataArticle,
+    element: UpdateArticle,
   },
 ];
 

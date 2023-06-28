@@ -15,7 +15,7 @@ import { createDataArticle, getDataArticleById } from "../../redux/article";
 import { useNavigate, useParams } from "react-router-dom";
 import { formatDate } from "../../utils";
 
-const CreateDataArticle = () => {
+const UpdateArticle = () => {
   const id = useParams().id;
   const dispatch = useAppDispatch();
   const category = useAppSelector((state) => state.category);
@@ -166,4 +166,4 @@ const CreateDataArticle = () => {
   );
 };
 
-export default CreateDataArticle;
+export default UpdateArticle;

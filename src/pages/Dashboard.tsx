@@ -16,6 +16,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import Chart from "./Chart";
+import Example from "./Example";
 const Dashboard = () => {
   const data = [
     {
@@ -110,6 +111,10 @@ const Dashboard = () => {
       </div>
       <div className="w-full mt-10">
         <Chart />
+      </div>
+      <div className="w-7/12  mt-10 bg-[#1A1E30] rounded-lg px-6 py-4 ">
+        <h3 className="text-2xl">Article Statis</h3>
+        <Example />
       </div>
     </div>
   );
