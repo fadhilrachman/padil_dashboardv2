@@ -17,8 +17,11 @@ const CreateExpense = () => {
   const dispatch = useAppDispatch();
   const category = useAppSelector((state) => state.category);
   const income = useAppSelector((state) => state.income);
-  const dataCategory = category.data;
+  const dataCategory = category.data.data;
 
+  useEffect(() => {
+    dispatch(getDataCategory());
+  }, []);
   const initialValues: RequestExpense = {
     kategori: "",
     total_pengeluaran: "",
@@ -49,10 +52,9 @@ const CreateExpense = () => {
       // navigate("/category");
     },
   });
-  useEffect(() => {
-    dispatch(getDataCategory());
-  }, []);
-  console.log(formik.values);
+
+  console.log(!!dataCategory);
+  console.log(category);
 
   return (
     <div className="border  border-[#55597D] border-opacity-30 p-5 rounded-lg">
@@ -105,7 +107,7 @@ const CreateExpense = () => {
               errMessage={formik.errors.kategori}
             >
               <option value="">Category</option>
-              {dataCategory?.map((val: any, key) => {
+              {dataCategory?.map((val: any, key: number) => {
                 return (
                   <option value={val._id} key={key}>
                     {val.nama}

@@ -10,7 +10,7 @@ import ModalDelete from "../../components/ModalDelete";
 import toast, { Toaster } from "react-hot-toast";
 import { getDataArticle, deleteDataArticle } from "../../redux/article";
 import { convertDate, convertLink, formatNumber } from "../../utils";
-import Category from "../../utils/interfaces/category";
+import { Category } from "../../utils/interfaces/category";
 import { QueryFilter } from "../../utils/interfaces";
 import BaseSelect from "../../components/form/BaseSelect";
 

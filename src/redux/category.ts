@@ -1,10 +1,26 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import Category from "../utils/interfaces/category";
-export const getDataCategory = createAsyncThunk("/category-get", async () => {
-  const result = await axios.get(`${import.meta.env.VITE_API_URL}/categories`);
-  return result;
-});
+import { Category, ResponCategory } from "../utils/interfaces/category";
+import { QueryFilter, ResponApi } from "../utils/interfaces";
+
+interface InitialState {
+  status: string;
+  data: ResponApi<Category[]>;
+  dataDetail: Category | any;
+}
+export const getDataCategory = createAsyncThunk(
+  "/category-get",
+  async ({ search, limit = "", page = "" }: QueryFilter = {}) => {
+    const result = await axios.get(
+      `${
+        import.meta.env.VITE_API_URL
+      }/categories?search=${search}&limit=${limit}&page=${page}`
+    );
+    console.log({ result });
+
+    return result;
+  }
+);
 
 export const getDataCategoryById = createAsyncThunk(
   "/category-getById",
@@ -48,22 +64,18 @@ export const deleteDataCategory = createAsyncThunk(
     return result;
   }
 );
-
+const initialState: InitialState = { status: "", data: {}, dataDetail: {} };
 const categorySlice = createSlice({
   name: "category",
   reducers: {},
-  initialState: {
-    status: "",
-    data: [],
-    dataDetail: {},
-  },
+  initialState,
   extraReducers(builder) {
     builder.addCase(getDataCategory.pending, (state) => {
       state.status = "loading";
     });
     builder.addCase(getDataCategory.fulfilled, (state, action) => {
       state.status = "succes";
-      state.data = action.payload.data.data;
+      state.data = action.payload.data;
       state.dataDetail = {};
     });
     builder.addCase(getDataCategory.rejected, (state, action) => {

@@ -26,7 +26,7 @@ const UpdateDataIncome = () => {
   const category = useAppSelector((state) => state.category);
   const income = useAppSelector((state) => state.income);
   const dataIncome = income.dataDetail;
-  const dataCategory = category.data;
+  const dataCategory = category.data.data;
 
   const initialValues: RequestIncome = {
     kategori: "",

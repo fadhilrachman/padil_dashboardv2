@@ -59,9 +59,8 @@ const Sidebar = ({ menu }: { menu: boolean }) => {
           <span className="text-[#55597D] text-sm mb-5">Main Menu</span>
           {mainMenu.map((val, key) => {
             return (
-              <Link to={val.path}>
+              <Link to={val.path} key={key}>
                 <div
-                  key={key}
                   className={`flex items-center mt-5 hover:scale-105 transition-all duration-150 ${
                     val.path === fnlLocation && "scale-105 text-sky-400"
                   }`}

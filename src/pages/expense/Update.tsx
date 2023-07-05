@@ -23,7 +23,7 @@ const UpdateExpense = () => {
   const category = useAppSelector((state) => state.category);
   const expense = useAppSelector((state) => state.expense);
   const dataExpense = expense.dataDetail;
-  const dataCategory = category.data;
+  const dataCategory = category.data.data;
 
   const initialValues: RequestExpense = {
     kategori: "",
@@ -134,7 +134,7 @@ const UpdateExpense = () => {
               errMessage={formik.errors.kategori}
             >
               <option value="">Category</option>
-              {dataCategory?.map((val: any, key) => {
+              {dataCategory?.map((val: any, key: number) => {
                 return (
                   <option value={val._id} key={key}>
                     {val.nama}

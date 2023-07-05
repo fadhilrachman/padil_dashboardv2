@@ -6,7 +6,7 @@ import BaseSelect from "../../components/form/BaseSelect";
 import ButtonBack from "../../components/ButtonBack";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import Category from "../../utils/interfaces/category";
+import { Category } from "../../utils/interfaces/category";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import { createDataCategory } from "../../redux/category";
 import { useNavigate } from "react-router-dom";
@@ -27,7 +27,7 @@ const CreateCategory = () => {
     }),
     onSubmit: async (val) => {
       await dispatch(createDataCategory(val));
-      navigate("/category");
+      // navigate("/category");
     },
   });
   console.log(formik.errors);
@@ -40,12 +40,12 @@ const CreateCategory = () => {
       </div>
       <form onSubmit={formik.handleSubmit}>
         <div className="border mt-7  border-[#55597D] border-opacity-30 p-5 rounded-lg">
-          <div className="sm:text-right   w-[700px]">
+          <div className="sm:text-right   w-9/12">
             <label htmlFor="" className="mr-4">
               Category Name
             </label>
             <BaseInput
-              className="w-6/12"
+              className="w-7/12"
               type="text"
               name="nama"
               onChange={formik.handleChange}
@@ -54,13 +54,13 @@ const CreateCategory = () => {
               errMessage={formik.errors.nama}
             />
           </div>
-          <div className="sm:text-right   w-[700px] mt-5">
+          <div className="sm:text-right   w-9/12 mt-5">
             <label htmlFor="" className="mr-4">
               Type
             </label>
-            {/* <BaseInput type="date" className="w-6/12" /> */}
+            {/* <BaseInput type="date" className="w-7/12" /> */}
             <BaseSelect
-              className="w-6/12"
+              className="w-7/12"
               name="type"
               onChange={formik.handleChange}
               value={formik.values.type}
@@ -70,6 +70,7 @@ const CreateCategory = () => {
               <option value="">Type Category</option>
               <option value="income">Income</option>
               <option value="expense">Expense</option>
+              <option value="article">Article</option>
             </BaseSelect>
           </div>
         </div>

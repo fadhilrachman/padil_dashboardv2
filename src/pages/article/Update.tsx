@@ -21,7 +21,7 @@ const UpdateArticle = () => {
   const category = useAppSelector((state) => state.category);
   const article = useAppSelector((state) => state.article);
   const dataArticle = article.dataDetail;
-  const dataCategory = category.data;
+  const dataCategory = category.data.data;
 
   const initialValues: RequestArticle = {
     kategori: "",

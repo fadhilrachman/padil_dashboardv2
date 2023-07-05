@@ -1,23 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Title from "../components/Title";
 import BaseInput from "../components/form/BaseInput";
 import BaseButton from "../components/form/BaseButton";
 import BaseTable from "../components/BaseTable";
 import Column from "../utils/interfaces/column";
 import CountUp from "react-countup";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
 import Chart from "./Chart";
 import Example from "./Example";
+import { useAppDispatch, useAppSelector } from "../hook";
+import { getDataDashboard } from "../redux/dashboard";
 const Dashboard = () => {
+  const dispatch = useAppDispatch();
+  const dashboard = useAppSelector((state) => state.dashboard);
+  const dataDashboard = dashboard.result;
+  useEffect(() => {
+    dispatch(getDataDashboard());
+  }, []);
+  console.log({ dataDashboard });
   const data = [
     {
       name: "Page A",
@@ -74,7 +73,7 @@ const Dashboard = () => {
             <i className="bx bx-coin text-[17px]"></i>
           </div>
           <h1 className="text-[45px] font-semibold  mt-4">
-            <CountUp start={0} end={270000} duration={3} />
+            <CountUp start={0} end={dataDashboard.money || 1000} duration={3} />
           </h1>
           <div className="font-normal mt-3 flex justify-between items-center text-green-500">
             <span>+3,840 (26,80%)</span>
@@ -87,7 +86,11 @@ const Dashboard = () => {
             <i className="bx bx-coin text-[17px]"></i>
           </div>
           <h1 className="text-[45px] font-semibold  mt-4 text-sky-400">
-            <CountUp start={0} end={30000} duration={2.8} />
+            <CountUp
+              start={0}
+              end={dataDashboard.income || 1000}
+              duration={2.8}
+            />
           </h1>
           <div className="font-normal mt-3 flex justify-between items-center text-green-500">
             <span>+3,840 (26,80%)</span>
@@ -101,7 +104,11 @@ const Dashboard = () => {
             <i className="bx bx-coin text-[17px]"></i>
           </div>
           <h1 className="text-[45px] font-semibold  mt-4 text-sky-400">
-            <CountUp start={0} end={27000} duration={2.5} />
+            <CountUp
+              start={0}
+              end={dataDashboard.expense || 1000}
+              duration={2.5}
+            />
           </h1>
           <div className="font-normal mt-3 flex justify-between items-center text-red-500">
             <span>+3,840 (26,80%)</span>

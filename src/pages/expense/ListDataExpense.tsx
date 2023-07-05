@@ -10,7 +10,7 @@ import ModalDelete from "../../components/ModalDelete";
 import toast, { Toaster } from "react-hot-toast";
 import { deleteDataExpense, getDataExpense } from "../../redux/expense";
 import { convertDate, formatNumber } from "../../utils";
-import Category from "../../utils/interfaces/category";
+import { Category } from "../../utils/interfaces/category";
 import { QueryFilter } from "../../utils/interfaces";
 import BaseSelect from "../../components/form/BaseSelect";
 
@@ -32,8 +32,6 @@ const ListDataExpense = () => {
   const expense = useAppSelector((state) => state.expense);
   const dataexpense = expense.result.data;
   const pagination = expense.result.pagination;
-
-  console.log(pagination);
 
   const column: Column[] = [
     {

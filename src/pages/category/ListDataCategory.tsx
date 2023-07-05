@@ -27,8 +27,8 @@ const ListDataCategory = () => {
   });
   const dispatch = useAppDispatch();
   const category = useAppSelector((state) => state.category);
-  const dataCategory = category.data;
-  console.log(modal);
+  const dataCategory = category.data.data;
+  console.log({ dataCategory });
 
   const column: Column[] = [
     {
@@ -76,13 +76,13 @@ const ListDataCategory = () => {
   ];
 
   useEffect(() => {
-    dispatch(getDataCategory());
-  }, []);
+    dispatch(getDataCategory(param));
+  }, [param]);
 
   const handleDelete = async () => {
     await dispatch(deleteDataCategory(modal.id));
     setModal({ show: false, id: "" });
-    dispatch(getDataCategory());
+    dispatch(getDataCategory(param));
     toast("Succes Delete Data ✔️", {
       // icon: "👏",
       style: {
@@ -105,15 +105,16 @@ const ListDataCategory = () => {
         </Link>
       </div>
 
-      {/* <BaseTable
+      <BaseTable
         loading={category.status === "loading"}
         className="mt-5"
         column={column}
         data={dataCategory}
-        count={category.result.count}
+        count={category.data.count}
         setParam={setParam}
+        pagination={category.data.pagination}
         param={param}
-      /> */}
+      />
       <ModalDelete
         show={modal.show}
         destroy={handleDelete}

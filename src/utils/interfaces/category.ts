@@ -1,7 +1,15 @@
+import { Pagination } from ".";
+
 interface Category {
   nama: string;
   type: "income" | "expense" | "";
   id?: string;
 }
 
-export default Category;
+interface ResponCategory {
+  count: number;
+  pagination: Pagination;
+  data: Category;
+}
+
+export type { Category, ResponCategory };
